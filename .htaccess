@@ -1,0 +1,30 @@
+# For security reasons, Option followsymlinks cannot be overridden.
+#Options +FollowSymlinks
+Options +SymLinksIfOwnerMatch
+
+DirectoryIndex index.php
+
+<Files database.php>
+order allow,deny
+deny from all
+</Files>
+<Files config.php>
+order allow,deny
+deny from all
+</Files>
+
+IndexIgnore *
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
+
+RewriteRule ^(.+)/$  /$1 [R=301,L]
+
+RewriteRule ^v/([a-zA-Z0-9_-]+)$ index.php?v=$1
+
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
